@@ -13,8 +13,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String DEFAULT_EDIT = "default-edit";
     public static final String COUNTER = "counter";
 
-    private Button mQuit;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
