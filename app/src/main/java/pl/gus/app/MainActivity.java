@@ -24,6 +24,7 @@ import java.util.Map;
 import pl.gus.app.activity_life_cycle.LifeCycleActivity;
 import pl.gus.app.databinding.ActivityMainBinding;
 import pl.gus.app.form.FormActivity;
+import pl.gus.app.recycler_view.RecyclerViewActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
                 },
                 "Uruchom FormActivity", () -> {
                     runActivity(FormActivity.class);
+                },
+                "Uruchom RecyclerView Activity", () -> {
+                    runActivity(RecyclerViewActivity.class);
                 }
                 );
         List<String> keys = new ArrayList<>(map.keySet());
