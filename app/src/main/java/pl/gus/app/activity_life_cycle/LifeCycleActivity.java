@@ -1,11 +1,18 @@
 package pl.gus.app.activity_life_cycle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.File;
 
 import pl.gus.app.MainActivity;
 import pl.gus.app.R;
@@ -35,7 +42,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         state.putString(EDIT, mEdit.getText().toString());
-        Log.i(TAG, "onSaveInstanceState");
+        Log.i(TAG, "onSaveInstanceState" );
     }
     @Override
     protected void onStart() {
