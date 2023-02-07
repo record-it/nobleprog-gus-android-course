@@ -3,10 +3,14 @@ package pl.gus.app.form;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
+
+import java.time.LocalDate;
 
 import pl.gus.app.R;
 import pl.gus.app.databinding.ActivityFormBinding;
@@ -21,6 +25,14 @@ public class FormActivity extends AppCompatActivity {
         setContentView(mBind.getRoot());
         mModel = new UserViewModel("Karol", "Nowak");
         mBind.setUser(mModel);
+    }
+
+    public void onClickBirthButton(View v){
+        DatePickerDialog datePicker = new DatePickerDialog(this);
+        datePicker.setOnDateSetListener((datePicker1, year, month, day) -> {
+            mModel.setBirth(LocalDate.of(year, month, day).format(DateConverter.FORMATTER));
+        });
+        datePicker.show();
     }
 
     public void onClickSaveButton(View w){
