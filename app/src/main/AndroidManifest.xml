@@ -14,6 +14,9 @@
         android:theme="@style/Theme.App"
         tools:targetApi="33">
         <activity
+            android:name=".recycler_view.RecyclerViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".form.FormActivity"
             android:exported="false" />
         <activity

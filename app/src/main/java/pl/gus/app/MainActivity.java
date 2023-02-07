@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import pl.gus.app.activity_life_cycle.LifeCycleActivity;
 import pl.gus.app.databinding.ActivityMainBinding;
@@ -36,14 +38,27 @@ public class MainActivity extends AppCompatActivity {
         mBind = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBind.getRoot());
         prepareActionBar();
-
-        List<String> list = List.of("Life Cycle Activity", "Form Activity", "Recycle View Activity");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        Map<String, Runnable> map = Map.of(
+                "Nic  nie rób", () -> {},
+                "Uruchom LifeCycleActivity", () -> {
+                    runActivity(LifeCycleActivity.class);
+                },
+                "Uruchom FormActivity", () -> {
+                    runActivity(FormActivity.class);
+                }
+                );
+        List<String> keys = new ArrayList<>(map.keySet());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                keys
+        );
         mBind.activitySpinner.setAdapter(adapter);
+        mBind.activitySpinner.setSelection(keys.indexOf("Nic  nie rób"));
         mBind.activitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "Selected activity " + list.get(i), Toast.LENGTH_SHORT).show();
+                map.get(keys.get(i)).run();
             }
 
             @Override
@@ -52,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private <T> void runActivity(Class<T> clazz) {
+        Intent intent = new Intent(this, clazz);
+        startActivity(intent);
     }
 
     /**
