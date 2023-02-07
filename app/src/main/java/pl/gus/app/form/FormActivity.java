@@ -1,5 +1,6 @@
 package pl.gus.app.form;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -25,5 +26,21 @@ public class FormActivity extends AppCompatActivity {
     public void onClickSaveButton(View w){
 
         Toast.makeText(this, mBind.getUser().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Czy zapisać dane?")
+                .setPositiveButton("Tak", (v, i) -> {
+                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                    super.onBackPressed();
+                })
+                .setNegativeButton("Nie", (v, i) ->{
+                    super.onBackPressed();
+                })
+                .setOnCancelListener((v) -> {
+                    super.onBackPressed();
+                }).show();
     }
 }

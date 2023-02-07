@@ -1,8 +1,8 @@
 package pl.gus.app.form;
 
+
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-
 import java.util.Objects;
 
 import pl.gus.app.BR;
@@ -10,6 +10,14 @@ import pl.gus.app.BR;
 public class UserViewModel extends BaseObservable {
     private String firstName;
     private String lastName;
+
+    private String phone;
+
+    private String imageUri;
+
+    private boolean active;
+
+    private String birth;
 
     public UserViewModel() {
     }
@@ -43,11 +51,63 @@ public class UserViewModel extends BaseObservable {
         }
     }
 
+    @Bindable
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        if (!Objects.equals(this.phone, phone)) {
+            this.phone = phone;
+            notifyPropertyChanged(BR.phone);
+        }
+    }
+
+    @Bindable
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        if (!Objects.equals(imageUri, this.imageUri)) {
+            this.imageUri = imageUri;
+            notifyPropertyChanged(BR.imageUri);
+        }
+    }
+
+    @Bindable
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        if (this.active != active) {
+            this.active = active;
+            notifyPropertyChanged(BR.active);
+        }
+    }
+
+    @Bindable
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        if (!Objects.equals(this.birth, birth)) {
+            this.birth = birth;
+            notifyPropertyChanged(BR.birth);
+        }
+    }
+
     @Override
     public String toString() {
         return "UserViewModel{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", imageUri=" + imageUri +
+                ", active=" + active +
+                ", birth=" + birth +
                 '}';
     }
 }
