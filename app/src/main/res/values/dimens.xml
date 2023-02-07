@@ -2,4 +2,5 @@
 <resources>
     <dimen name="intro_radius">24dp</dimen>
     <dimen name="intro_width">2dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
 </resources>

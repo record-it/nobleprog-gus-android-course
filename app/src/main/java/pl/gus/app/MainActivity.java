@@ -11,11 +11,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import pl.gus.app.activity_life_cycle.LifeCycleActivity;
+import pl.gus.app.databinding.ActivityMainBinding;
+import pl.gus.app.form.FormActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,11 +29,29 @@ public class MainActivity extends AppCompatActivity {
     public static final String COUNTER = "counter";
 
     private EditText mSearchText;
+    private ActivityMainBinding mBind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mBind = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mBind.getRoot());
         prepareActionBar();
+
+        List<String> list = List.of("Life Cycle Activity", "Form Activity", "Recycle View Activity");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        mBind.activitySpinner.setAdapter(adapter);
+        mBind.activitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this, "Selected activity " + list.get(i), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     /**
@@ -73,12 +97,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.main_life:
-                startLifeCycleActivity();
+                //startLifeCycleActivity();
+                startFormActivity();
                 return true;
             case R.id.main_configuration:
                 Toast.makeText(this, "Configuration", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return false;
+    }
+
+    //napisz metodę startFormActivity, która uchamia aktywność FormActivity
+    public void startFormActivity(){
+        Intent intent = new Intent(this, FormActivity.class);
+        startActivity(intent);
     }
 }

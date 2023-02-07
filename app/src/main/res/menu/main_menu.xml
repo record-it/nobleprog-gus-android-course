@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:title="Item"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/main_life"
         android:title="@string/menu_life_label" />
     <item
