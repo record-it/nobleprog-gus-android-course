@@ -34,6 +34,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
     public void clickOnButton(View view) {
-        Toast.makeText(mContext, "Position " + view.getTag() , Toast.LENGTH_SHORT).show();
+        int tag = (int) view.getTag();
+        Toast.makeText(mContext, "Position " + view.getTag(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -26,22 +28,33 @@ public class FormActivity extends AppCompatActivity {
     private ActivityFormBinding mBind;
     private UserViewModel mModel;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBind = ActivityFormBinding.inflate(getLayoutInflater());
         setContentView(mBind.getRoot());
-        mModel = new UserViewModel("Karol", "Nowak");
-        mBind.setUser(mModel);
+        int userId = getIntent().getIntExtra(getString(R.string.user_id), -1);
+        if(userId == -1){
+            Toast.makeText(this, "No valid user id, cand display data", Toast.LENGTH_SHORT).show();
+            return;
+        }
         executor.execute(() -> {
-            List<User> users = BaseContext.getInstance(this).userDao().findAll();
-            for(User item: users){
-                Log.i(TAG, item.getFirstName());
+            User user = BaseContext.getInstance(this).userDao().findById(userId);
+            if (user == null){
+                return;
             }
+            runOnUiThread(() -> {
+                mModel = new UserViewModel();
+                mBind.setUser(mModel);
+                mModel.setBirth(user.getBirth());
+                mModel.setLastName(user.getLastName());
+                mModel.setFirstName(user.getFirstName());
+            });
         });
     }
 
-    public void onClickBirthButton(View v){
+    public void onClickBirthButton(View v) {
         DatePickerDialog datePicker = new DatePickerDialog(this);
         datePicker.setOnDateSetListener((datePicker1, year, month, day) -> {
             mModel.setBirth(LocalDate.of(year, month, day).format(DateConverter.FORMATTER));
@@ -49,11 +62,11 @@ public class FormActivity extends AppCompatActivity {
         datePicker.show();
     }
 
-    public void onClickSaveButton(View w){
+    public void onClickSaveButton(View w) {
         saveUser();
     }
 
-    private void saveUser(){
+    private void saveUser() {
         BaseContext baseContext = BaseContext.getInstance(this);
         executor.execute(() -> {
             baseContext.userDao().save(mModel.toEntity());
@@ -65,14 +78,20 @@ public class FormActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setMessage("Czy zapisać dane?")
                 .setPositiveButton("Tak", (v, i) -> {
-                   saveUser();
+                    saveUser();
                     super.onBackPressed();
                 })
-                .setNegativeButton("Nie", (v, i) ->{
+                .setNegativeButton("Nie", (v, i) -> {
                     super.onBackPressed();
                 })
                 .setOnCancelListener((v) -> {
                     super.onBackPressed();
                 }).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executor.shutdownNow();
     }
 }

@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.telephony.PreciseDataConnectionState;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 import pl.gus.app.activity_life_cycle.LifeCycleActivity;
 import pl.gus.app.databinding.ActivityMainBinding;
+import pl.gus.app.files.FileActivity;
 import pl.gus.app.form.FormActivity;
 import pl.gus.app.notification.NotificationActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
@@ -34,12 +38,26 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText mSearchText;
     private ActivityMainBinding mBind;
+
+    private void createConfiguration(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean exists = prefs.getBoolean("exists", false);
+        if (!exists) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(getString(R.string.prefs_exists), true);
+            editor.putString(getString(R.string.prefs_message), "Default message");
+            editor.commit();
+        }
+    }
+
+    //Odczytać z Shared Preferencies w aktywności NotificationActivity wartość prefs_message w Toast
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBind = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBind.getRoot());
         prepareActionBar();
+        createConfiguration();
         Map<String, Runnable> map = Map.of(
                 "1. Nic  nie rób", () -> {},
                 "2. Uruchom LifeCycleActivity", () -> {
@@ -53,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
                 },
                 "5. Uruchom NotificationActivity", () -> {
                     runActivity(NotificationActivity.class);
+                },
+                "6. Uruchom FileActivity", () -> {
+                    runActivity(FileActivity.class);
                 }
                 );
         List<String> keys = new ArrayList<>(map.keySet());

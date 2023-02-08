@@ -5,4 +5,7 @@
     <string name="form_save_button_label">Zapisz</string>
     <string name="load_image_button_label">Pobierz obrazek</string>
     <string name="user_burth_date_button_label">Ustaw datę urodzin</string>
+    <string name="user_id">user_id</string>
+    <string name="prefs_exists">exists</string>
+    <string name="prefs_message">message</string>
 </resources>
