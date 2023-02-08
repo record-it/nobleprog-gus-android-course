@@ -3,8 +3,10 @@ package pl.gus.app.recycler_view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +36,7 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.mFirstNameView.setText(users.get(position).getFirstName());
         holder.mSwitch.setChecked(users.get(position).getLastName() != null);
+        holder.mButton.setTag(position);
     }
 
     @Override
@@ -44,12 +47,17 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mFirstNameView;
         public final Switch mSwitch;
+
+        public Button mButton;
         public ViewHolder(@NonNull View view) {
             super(view);
             mFirstNameView = view.findViewById(R.id.recyler_firstName);
             mSwitch = view.findViewById(R.id.recycler_switch);
+            mButton = view.findViewById(R.id.recycler_show_button);
         }
     }
+
+
 
 
 }

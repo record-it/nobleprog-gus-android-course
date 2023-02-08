@@ -6,6 +6,7 @@ import androidx.databinding.Bindable;
 import java.util.Objects;
 
 import pl.gus.app.BR;
+import pl.gus.app.sqlite.User;
 
 public class UserViewModel extends BaseObservable {
     private String firstName;
@@ -109,5 +110,15 @@ public class UserViewModel extends BaseObservable {
                 ", active=" + active +
                 ", birth=" + birth +
                 '}';
+    }
+
+    public User toEntity(){
+        User entity = new User();
+        entity.setBirth(this.birth);
+        entity.setFirstName(this.firstName);
+        entity.setPhone(this.phone);
+        entity.setImageUri(this.imageUri);
+        entity.setLastName(this.lastName);
+        return entity;
     }
 }

@@ -6,18 +6,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import pl.gus.app.R;
 import pl.gus.app.databinding.ActivityFormBinding;
+import pl.gus.app.sqlite.BaseContext;
+import pl.gus.app.sqlite.User;
 
 public class FormActivity extends AppCompatActivity {
+    private static final String TAG = "FORM";
     private ActivityFormBinding mBind;
     private UserViewModel mModel;
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +33,12 @@ public class FormActivity extends AppCompatActivity {
         setContentView(mBind.getRoot());
         mModel = new UserViewModel("Karol", "Nowak");
         mBind.setUser(mModel);
+        executor.execute(() -> {
+            List<User> users = BaseContext.getInstance(this).userDao().findAll();
+            for(User item: users){
+                Log.i(TAG, item.getFirstName());
+            }
+        });
     }
 
     public void onClickBirthButton(View v){
@@ -36,8 +50,14 @@ public class FormActivity extends AppCompatActivity {
     }
 
     public void onClickSaveButton(View w){
+        saveUser();
+    }
 
-        Toast.makeText(this, mBind.getUser().toString(), Toast.LENGTH_SHORT).show();
+    private void saveUser(){
+        BaseContext baseContext = BaseContext.getInstance(this);
+        executor.execute(() -> {
+            baseContext.userDao().save(mModel.toEntity());
+        });
     }
 
     @Override
@@ -45,7 +65,7 @@ public class FormActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setMessage("Czy zapisać dane?")
                 .setPositiveButton("Tak", (v, i) -> {
-                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                   saveUser();
                     super.onBackPressed();
                 })
                 .setNegativeButton("Nie", (v, i) ->{

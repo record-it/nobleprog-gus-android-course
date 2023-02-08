@@ -24,6 +24,7 @@ import java.util.Map;
 import pl.gus.app.activity_life_cycle.LifeCycleActivity;
 import pl.gus.app.databinding.ActivityMainBinding;
 import pl.gus.app.form.FormActivity;
+import pl.gus.app.notification.NotificationActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
 
 
@@ -40,18 +41,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mBind.getRoot());
         prepareActionBar();
         Map<String, Runnable> map = Map.of(
-                "Nic  nie rób", () -> {},
-                "Uruchom LifeCycleActivity", () -> {
+                "1. Nic  nie rób", () -> {},
+                "2. Uruchom LifeCycleActivity", () -> {
                     runActivity(LifeCycleActivity.class);
                 },
-                "Uruchom FormActivity", () -> {
+                "3. Uruchom FormActivity", () -> {
                     runActivity(FormActivity.class);
                 },
-                "Uruchom RecyclerView Activity", () -> {
+                "4. Uruchom RecyclerView Activity", () -> {
                     runActivity(RecyclerViewActivity.class);
+                },
+                "5. Uruchom NotificationActivity", () -> {
+                    runActivity(NotificationActivity.class);
                 }
                 );
         List<String> keys = new ArrayList<>(map.keySet());
+        keys.sort(String::compareTo);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,

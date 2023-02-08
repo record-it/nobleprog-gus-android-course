@@ -34,17 +34,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
     public void clickOnButton(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        String[] options = {"AA", "BB", "CC"};
-        builder.setTitle("Wybierz kolor")
-                .setItems(options, (d, i) -> {
-                    Toast.makeText(mContext, "Wybrałeś " + options[i] , Toast.LENGTH_SHORT).show();
-                })
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(mContext, "Clicked positive button " + i, Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
+        Toast.makeText(mContext, "Position " + view.getTag() , Toast.LENGTH_SHORT).show();
     }
 }

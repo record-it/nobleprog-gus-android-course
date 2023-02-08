@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         tools:targetApi="33">
+        <activity
+            android:name=".notification.NotificationActivity"
+            android:exported="false" />
         <activity
             android:name=".recycler_view.RecyclerViewActivity"
             android:exported="false" />
