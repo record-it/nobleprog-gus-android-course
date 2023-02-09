@@ -30,6 +30,7 @@ import pl.gus.app.files.FileActivity;
 import pl.gus.app.form.FormActivity;
 import pl.gus.app.notification.NotificationActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
+import pl.gus.app.service.ServiceActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -74,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 },
                 "6. Uruchom FileActivity", () -> {
                     runActivity(FileActivity.class);
+                },
+                "7. Uruchom ServiceActivity", () -> {
+                    runActivity(ServiceActivity.class);
                 }
                 );
         List<String> keys = new ArrayList<>(map.keySet());
