@@ -4,8 +4,9 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,6 +17,9 @@
         android:theme="@style/Theme.App"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+        <activity
+            android:name=".receiver.ReceiverActivity"
+            android:exported="false" />
         <activity
             android:name=".service.ServiceActivity"
             android:exported="false" />

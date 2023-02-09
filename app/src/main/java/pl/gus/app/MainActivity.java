@@ -29,6 +29,7 @@ import pl.gus.app.databinding.ActivityMainBinding;
 import pl.gus.app.files.FileActivity;
 import pl.gus.app.form.FormActivity;
 import pl.gus.app.notification.NotificationActivity;
+import pl.gus.app.receiver.ReceiverActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
 import pl.gus.app.service.ServiceActivity;
 
@@ -78,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 },
                 "7. Uruchom ServiceActivity", () -> {
                     runActivity(ServiceActivity.class);
+                },
+                "8. Uruchom ReceiverActivity", () -> {
+                    runActivity(ReceiverActivity.class);
                 }
                 );
         List<String> keys = new ArrayList<>(map.keySet());

@@ -15,10 +15,13 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -58,10 +61,22 @@ public class ServiceActivity extends AppCompatActivity {
 
     }
 
+    //Rozbuduj funkcję o wysyłanie requestu z datą z pola serviceDate dołączaną do url
+    //sprawdz poprawność daty, i jeśli nie jest poprawna wyślij Toast lub Snackbar
+    //W callbak wykonaj parsowanie odpowiedzi do obiektu CurrencyRates i wyświetl w serviceJson
+    //notowanie dla USD
     public void onClickDownloadButtonOkHttpClient(View v) {
-        HttpUrl.Builder builder = HttpUrl.parse("http://api.nbp.pl/api/exchangerates/tables/C/2023-02-09/")
+
+        HttpUrl.Builder builder = HttpUrl.parse("http://api.nbp.pl/api/exchangerates/tables/C/")
                 .newBuilder();
         builder.addQueryParameter("format", "json");
+        try {
+            LocalDate.parse(mBind.serviceDate.getText().toString());
+        } catch (DateTimeParseException e){
+
+            return;
+        }
+        builder.addPathSegment(mBind.serviceDate.getText().toString());
         Request request = new Request.Builder()
                 .url(builder.build())
                 .addHeader("Accept", "application/json")
@@ -71,7 +86,9 @@ public class ServiceActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 runOnUiThread(() -> {
-                    mBind.serviceJson.setText("Problem with request! No body " + e.getMessage());
+                    Snackbar.make(mBind.serviceJson, "\"Problem with request! No body \" + e.getMessage()", Snackbar.LENGTH_LONG)
+                            .show();
+
                 });
             }
 
