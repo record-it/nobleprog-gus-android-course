@@ -3,6 +3,7 @@ package pl.gus.app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -29,6 +30,7 @@ import pl.gus.app.databinding.ActivityMainBinding;
 import pl.gus.app.files.FileActivity;
 import pl.gus.app.form.FormActivity;
 import pl.gus.app.notification.NotificationActivity;
+import pl.gus.app.open_street_map.OpenMapActivity;
 import pl.gus.app.receiver.ReceiverActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
 import pl.gus.app.sensor.SensorActivity;
@@ -41,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText mSearchText;
     private ActivityMainBinding mBind;
+    List<String> mSet;
 
-    private void createConfiguration(){
+    Map<String, Runnable> mActivityMap;
+
+    private void createConfiguration() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean exists = prefs.getBoolean("exists", false);
         if (!exists) {
@@ -61,46 +66,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mBind.getRoot());
         prepareActionBar();
         createConfiguration();
-        Map<String, Runnable> map = Map.of(
-                "1. Nic  nie rób", () -> {},
-                "2. Uruchom LifeCycleActivity", () -> {
+        mActivityMap = Map.of(
+                "1. Uruchom LifeCycleActivity", () -> {
                     runActivity(LifeCycleActivity.class);
                 },
-                "3. Uruchom FormActivity", () -> {
+                "2. Uruchom FormActivity", () -> {
                     runActivity(FormActivity.class);
                 },
-                "4. Uruchom RecyclerView Activity", () -> {
+                "3. Uruchom RecyclerView Activity", () -> {
                     runActivity(RecyclerViewActivity.class);
                 },
-                "5. Uruchom NotificationActivity", () -> {
+                "4. Uruchom NotificationActivity", () -> {
                     runActivity(NotificationActivity.class);
                 },
-                "6. Uruchom FileActivity", () -> {
+                "5. Uruchom FileActivity", () -> {
                     runActivity(FileActivity.class);
                 },
-                "7. Uruchom ServiceActivity", () -> {
+                "6. Uruchom ServiceActivity", () -> {
                     runActivity(ServiceActivity.class);
                 },
-                "8. Uruchom ReceiverActivity", () -> {
+                "7. Uruchom ReceiverActivity", () -> {
                     runActivity(ReceiverActivity.class);
                 },
-                "9. Uruchom SensorActivity", () -> {
+                "8. Uruchom SensorActivity", () -> {
                     runActivity(SensorActivity.class);
+                },
+                "9. Uruchom OpenMapActivity", () -> {
+                    runActivity(OpenMapActivity.class);
                 }
-                );
-        List<String> keys = new ArrayList<>(map.keySet());
-        keys.sort(String::compareTo);
+        );
+        mSet = new ArrayList<>(mActivityMap.keySet());
+        mSet.sort(String::compareTo);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
-                keys
+                mSet
         );
         mBind.activitySpinner.setAdapter(adapter);
-        mBind.activitySpinner.setSelection(keys.indexOf("Nic  nie rób"));
         mBind.activitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                map.get(keys.get(i)).run();
+
             }
 
             @Override
@@ -121,17 +127,18 @@ public class MainActivity extends AppCompatActivity {
      * po kliknięciu na lupkę należy w Toast wyświetlić tekst z mSearchText
      */
 
-    private void prepareActionBar(){
+    private void prepareActionBar() {
         ActionBar actionBar = getSupportActionBar();
         mSearchText = new EditText(this);
         mSearchText.setTextColor(Color.WHITE);
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(mSearchText);
         }
     }
-    public void onClickQuitButton(View v){
-        startLifeCycleActivity();
+
+    public void onClickQuitButton(View v) {
+        mActivityMap.get(mSet.get(mBind.activitySpinner.getSelectedItemPosition())).run();
     }
 
     private void startLifeCycleActivity() {
@@ -141,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickSendSMS(View view){
+    public void onClickSendSMS(View view) {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:+48-123-456-789"));
         intent.putExtra("sms_body", "Hello from Android");
         Intent choose = Intent.createChooser(intent, "Wybierz aplikację");
@@ -157,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.main_life:
                 //startLifeCycleActivity();
                 startFormActivity();
@@ -170,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //napisz metodę startFormActivity, która uchamia aktywność FormActivity
-    public void startFormActivity(){
+    public void startFormActivity() {
         Intent intent = new Intent(this, FormActivity.class);
         startActivity(intent);
     }

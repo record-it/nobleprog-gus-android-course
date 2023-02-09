@@ -36,6 +36,21 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+
+    def mapsforge_version = "0.18.0"
+    implementation "org.mapsforge:mapsforge-map-android:$mapsforge_version"
+    implementation "com.caverock:androidsvg:1.4"
+    implementation "org.mapsforge:mapsforge-poi-android:$mapsforge_version"
+    runtimeOnly "org.mapsforge:sqlite-android:$mapsforge_version:natives-armeabi-v7a"
+    runtimeOnly "org.mapsforge:sqlite-android:$mapsforge_version:natives-arm64-v8a"
+    runtimeOnly "org.mapsforge:sqlite-android:$mapsforge_version:natives-x86"
+    runtimeOnly "org.mapsforge:sqlite-android:$mapsforge_version:natives-x86_64"
+    implementation "org.mapsforge:sqlite-android:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-core:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-map:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-map-reader:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-themes:$mapsforge_version"
+
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
