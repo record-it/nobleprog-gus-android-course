@@ -21,7 +21,9 @@
             android:id="@+id/firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:errorEnabled="true"
             android:ems="10"
+
             android:hint="imię"
             android:inputType="textPersonName"
             android:text="@={user.firstName}"
