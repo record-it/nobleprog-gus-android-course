@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.webkit.DownloadListener;
 
 import java.io.File;
@@ -28,7 +29,14 @@ public class ReceiverActivity extends AppCompatActivity {
         mBind = ActivityReceiverBinding.inflate(getLayoutInflater());
         setContentView(mBind.getRoot());
         registerReceiver(mReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        mBind.progressBar.setVisibility(View.VISIBLE);
         downloadFile("https://www.tabletowo.pl/wp-content/uploads/2021/12/apple-car-1946c46a51e6c13a9286261261fef3a4.jpeg");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
     }
 
     /**
@@ -58,6 +66,7 @@ public class ReceiverActivity extends AppCompatActivity {
             if (id == mTaskId){
                 Uri downloadedFileUri = mManager.getUriForDownloadedFile(id);
                 mBind.imageView.setImageURI(downloadedFileUri);
+                mBind.progressBar.setVisibility(View.GONE);
             }
         }
     };

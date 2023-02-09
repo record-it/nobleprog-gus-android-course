@@ -31,6 +31,7 @@ import pl.gus.app.form.FormActivity;
 import pl.gus.app.notification.NotificationActivity;
 import pl.gus.app.receiver.ReceiverActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
+import pl.gus.app.sensor.SensorActivity;
 import pl.gus.app.service.ServiceActivity;
 
 
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 },
                 "8. Uruchom ReceiverActivity", () -> {
                     runActivity(ReceiverActivity.class);
+                },
+                "9. Uruchom SensorActivity", () -> {
+                    runActivity(SensorActivity.class);
                 }
                 );
         List<String> keys = new ArrayList<>(map.keySet());

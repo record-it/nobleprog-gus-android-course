@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:name=".sensor.SensorActivity"
+            android:exported="false" />
+        <activity
             android:name=".receiver.ReceiverActivity"
             android:exported="false" />
         <activity
