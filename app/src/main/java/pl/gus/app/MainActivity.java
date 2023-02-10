@@ -29,6 +29,7 @@ import pl.gus.app.activity_life_cycle.LifeCycleActivity;
 import pl.gus.app.databinding.ActivityMainBinding;
 import pl.gus.app.files.FileActivity;
 import pl.gus.app.form.FormActivity;
+import pl.gus.app.fragment.FragmentActivity;
 import pl.gus.app.notification.NotificationActivity;
 import pl.gus.app.open_street_map.OpenMapActivity;
 import pl.gus.app.receiver.ReceiverActivity;
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 },
                 "9. Uruchom OpenMapActivity", () -> {
                     runActivity(OpenMapActivity.class);
+                },
+                "10. Uruchom FragmentActivity", () -> {
+                    runActivity(FragmentActivity.class);
                 }
         );
         mSet = new ArrayList<>(mActivityMap.keySet());
