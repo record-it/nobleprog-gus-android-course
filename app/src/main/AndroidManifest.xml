@@ -20,6 +20,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:name=".temperature.TestedActivity"
+            android:exported="false"
+            />
+        <activity
             android:name=".slider.SliderActivity"
             android:exported="false" />
         <activity
