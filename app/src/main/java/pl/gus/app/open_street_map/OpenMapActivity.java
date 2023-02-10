@@ -1,13 +1,23 @@
 package pl.gus.app.open_street_map;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import org.mapsforge.core.model.LatLong;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
@@ -20,16 +30,57 @@ import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 
 import java.io.FileInputStream;
+import java.util.Optional;
 
 public class OpenMapActivity extends AppCompatActivity {
 
     private static final int SELECT_MAP_FILE = 0;
-
+    private LocationManager mLocationManager;
+    String mBestProvider;
+    private LocationListener mLocationListener;
+    private ActivityResultLauncher<String> mRequestPermissionLauncher = getRequestPermissionLauncher();
     private MapView mapView;
     private ActivityResultLauncher<Intent> mResultLauncher;
+    private boolean isLocationGranted = false;
+
+    private ActivityResultLauncher<String> getRequestPermissionLauncher() {
+        return registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                isLocationGranted = true;
+            } else {
+                Toast.makeText(this, "Brak zezwolenia na lokalizację!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @SuppressLint("MissingPermission")
+    private Optional<Location> getLocalization() {
+        if (isLocationGranted) {
+            if (mLocationManager == null) {
+                mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            }
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+            mBestProvider = mLocationManager.getBestProvider(criteria, true);
+            return Optional.of(mLocationManager.getLastKnownLocation(mBestProvider));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            mRequestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        } else {
+            isLocationGranted = true;
+        }
+
         /*
          * Before you make any calls on the mapsforge library, you need to initialize the
          * AndroidGraphicFactory. Behind the scenes, this initialization process gathers a bit of
@@ -52,7 +103,8 @@ public class OpenMapActivity extends AppCompatActivity {
         setContentView(mapView);
         mResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), data -> {
             if (data != null) {
-                openMap(data.getData().getData());
+                Uri documentUri = data.getData().getData();
+                openMap(documentUri);
             }
         });
 
@@ -105,8 +157,12 @@ public class OpenMapActivity extends AppCompatActivity {
              * The map also needs to know which area to display and at what zoom level.
              * Note: this map position is specific to Berlin area.
              */
-            mapView.setCenter(new LatLong(52.517037, 13.38886));
-
+            Optional<Location> optionalLocation = getLocalization();
+            if (optionalLocation.isPresent()) {
+                Location location = optionalLocation.get();
+                Log.i("LOCATION", "Location " + location.getLatitude() +" " + location.getLongitude());
+                mapView.setCenter(new LatLong(location.getLatitude(), location.getLongitude()));
+            }
             mapView.setZoomLevel((byte) 12);
         } catch (Exception e) {
             /*
