@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.slidingpanelayout.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".slider.SliderActivity">
+
+    <TextView
+        android:id="@+id/slider_left"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="ksjdfhsk ksjhdf ksjdfh lsjkdfh lkjshd lakjshg klsjhglk shg sjkgh sk" />
+
+    <TextView
+        android:id="@+id/slider_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JDSK JDH SKFDH LJSH LKSHGDLK JSHGDLKJHSKDJG HSKGH SKDFJG"/>
+
+
+</androidx.slidingpanelayout.widget.SlidingPaneLayout>

@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import pl.gus.app.receiver.ReceiverActivity;
 import pl.gus.app.recycler_view.RecyclerViewActivity;
 import pl.gus.app.sensor.SensorActivity;
 import pl.gus.app.service.ServiceActivity;
+import pl.gus.app.slider.SliderActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -67,38 +69,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mBind.getRoot());
         prepareActionBar();
         createConfiguration();
-        mActivityMap = Map.of(
-                "1. Uruchom LifeCycleActivity", () -> {
+        mActivityMap = new HashMap<>(Map.of(
+                "01. Uruchom LifeCycleActivity", () -> {
                     runActivity(LifeCycleActivity.class);
                 },
-                "2. Uruchom FormActivity", () -> {
+                "02. Uruchom FormActivity", () -> {
                     runActivity(FormActivity.class);
                 },
-                "3. Uruchom RecyclerView Activity", () -> {
+                "03. Uruchom RecyclerView Activity", () -> {
                     runActivity(RecyclerViewActivity.class);
                 },
-                "4. Uruchom NotificationActivity", () -> {
+                "04. Uruchom NotificationActivity", () -> {
                     runActivity(NotificationActivity.class);
                 },
-                "5. Uruchom FileActivity", () -> {
+                "05. Uruchom FileActivity", () -> {
                     runActivity(FileActivity.class);
                 },
-                "6. Uruchom ServiceActivity", () -> {
+                "06. Uruchom ServiceActivity", () -> {
                     runActivity(ServiceActivity.class);
                 },
-                "7. Uruchom ReceiverActivity", () -> {
+                "07. Uruchom ReceiverActivity", () -> {
                     runActivity(ReceiverActivity.class);
                 },
-                "8. Uruchom SensorActivity", () -> {
+                "08. Uruchom SensorActivity", () -> {
                     runActivity(SensorActivity.class);
                 },
-                "9. Uruchom OpenMapActivity", () -> {
+                "09. Uruchom OpenMapActivity", () -> {
                     runActivity(OpenMapActivity.class);
                 },
                 "10. Uruchom FragmentActivity", () -> {
                     runActivity(FragmentActivity.class);
                 }
-        );
+        ));
+        mActivityMap.put("11. Uruchom SliderActivity", () -> runActivity(SliderActivity.class));
         mSet = new ArrayList<>(mActivityMap.keySet());
         mSet.sort(String::compareTo);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(

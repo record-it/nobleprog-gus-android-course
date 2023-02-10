@@ -17,6 +17,7 @@
             android:id="@+id/fragment_main_text"
             android:layout_width="match_parent"
             android:layout_height="267dp"
+            android:onClick="onClickTextRegisterFragment"
             android:text="@string/hello_blank_fragment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
