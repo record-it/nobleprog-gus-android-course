@@ -1,6 +1,5 @@
 package pl.gus.app.open_street_map;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
 
 import org.mapsforge.core.model.LatLong;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
@@ -108,6 +106,7 @@ public class OpenMapActivity extends AppCompatActivity {
              * Note: this map position is specific to Berlin area.
              */
             mapView.setCenter(new LatLong(52.517037, 13.38886));
+
             mapView.setZoomLevel((byte) 12);
         } catch (Exception e) {
             /*

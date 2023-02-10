@@ -10,6 +10,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.Locale;
+
 import pl.gus.app.R;
 import pl.gus.app.databinding.ActivitySensorBinding;
 import pl.gus.app.databinding.ActivityServiceBinding;
@@ -21,12 +23,9 @@ public class SensorActivity extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             mBind.textView.setText("");
-            if (sensorEvent.values.length == 3) {
-                mBind.textView.append("x: " + sensorEvent.values[0] + "\n");
-                mBind.textView.append("y: " + sensorEvent.values[1] + "\n");
-                mBind.textView.append("z: " + sensorEvent.values[2] + "\n");
-            } else {
-                mBind.textView.append("x: " + sensorEvent.values[0] + "\n");
+            for(int i = 0; i < sensorEvent.values.length; i++) {
+                mBind.textView.append(String.format(Locale.forLanguageTag("PL-pl"),"v[%d]=%-10.4f\n", i, sensorEvent.values[i]));
+
             }
         }
 
@@ -53,7 +52,7 @@ public class SensorActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mService.registerListener(mListener, mService.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE), SensorManager.SENSOR_DELAY_NORMAL);
+        mService.registerListener(mListener, mService.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override

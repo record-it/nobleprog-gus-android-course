@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -49,7 +51,7 @@ public class FileActivity extends AppCompatActivity {
                 mBind.filesText.append(System.lineSeparator());
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Snackbar.make(mBind.filesText, "No default file!", Snackbar.LENGTH_LONG).show();
         }
     }
 
