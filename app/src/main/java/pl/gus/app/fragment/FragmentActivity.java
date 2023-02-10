@@ -9,7 +9,7 @@ import pl.gus.app.R;
 
 /***
  * 1. Prosze utworzyć pusty fragment o nazwie RegisterFragment
- * 2. 
+ * 2.
  */
 public class FragmentActivity extends AppCompatActivity {
 
