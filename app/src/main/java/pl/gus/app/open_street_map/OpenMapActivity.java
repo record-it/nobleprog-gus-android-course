@@ -162,6 +162,8 @@ public class OpenMapActivity extends AppCompatActivity {
                 Location location = optionalLocation.get();
                 Log.i("LOCATION", "Location " + location.getLatitude() +" " + location.getLongitude());
                 mapView.setCenter(new LatLong(location.getLatitude(), location.getLongitude()));
+            } else {
+                mapView.setCenter(new LatLong( 52, 22));
             }
             mapView.setZoomLevel((byte) 12);
         } catch (Exception e) {
